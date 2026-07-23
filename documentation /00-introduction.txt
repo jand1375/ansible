@@ -1,0 +1,65 @@
+# Lesson 00 - Introduction to Ansible
+
+## What is Ansible?
+
+Ansible is an agentless Infrastructure as Code (IaC) automation platform used to configure and manage remote systems over SSH.
+
+Instead of manually configuring servers one by one, Ansible describes the desired state and applies it consistently across one or many machines.
+
+---
+
+## Architecture
+
+Controller
+- Runs Ansible
+- Sends instructions over SSH
+
+Managed Node
+- Receives instructions
+- Requires SSH and Python
+- Does NOT require Ansible
+
+---
+
+## Key Concepts
+
+Playbook
+- A collection of tasks.
+
+Task
+- A single action.
+
+Module
+- A built-in tool that performs work (apt, file, copy, service, user, template).
+
+Inventory
+- The list of hosts Ansible manages.
+
+---
+
+## Idempotence
+
+One of Ansible's core principles.
+
+Running the same playbook multiple times only changes the system when necessary.
+
+---
+
+## Commands Used
+
+None
+
+---
+
+## Summary
+
+- Learned what Ansible is.
+- Learned the Controller/Managed Node model.
+- Learned what Playbooks, Tasks, Modules, and Inventories are.
+- Learned the importance of Idempotence.
+
+---
+
+## Next Lesson
+
+Configure the inventory and verify communication with the managed node using Ansible's ping module.
