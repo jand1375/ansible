@@ -1,0 +1,65 @@
+Objective
+
+Create a reusable playbook that:
+
+* Creates an administrative user.
+* Assigns a password securely.
+* Adds the user to the sudo group.
+* Creates the home directory.
+* Installs an SSH public key.
+* Uses Ansible Vault so passwords are never stored in plaintext.
+
+Create the Vault File
+mkdir -p inventory/group_vars/all
+touch inventory/group_vars/all/vault.yml
+
+Encrypt it:
+ansible-vault encrypt inventory/group_vars/all/vault.yml
+
+Edit the Vault
+ansible-vault edit inventory/group_vars/all/vault.yml
+
+Generate a Linux Password Hash
+openssl passwd -6
+
+Store the Hash in Vault
+* you do this with ansible edit
+
+users.yml
+---
+- name: Configure administrative users
+  hosts: droplet
+  become: true
+
+  tasks:
+
+    - name: Ensure sudo is installed
+      ansible.builtin.apt:
+        name: sudo
+        state: present
+        update_cache: true
+
+    - name: Create adminja account
+      ansible.builtin.user:
+        name: adminja
+        password: "{{ vault_adminja_password_hash }}"
+        groups:
+          - sudo
+        append: true
+        shell: /bin/bash
+        create_home: true
+        state: present
+        update_password: on_create
+
+    - name: Install SSH public key
+      ansible.posix.authorized_key:
+        user: adminja
+        state: present
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+		
+		
+Run the Playbook
+ansible-playbook \
+-i inventory/infrastructure.ini \
+playbooks/users.yml \
+--ask-vault-pass
