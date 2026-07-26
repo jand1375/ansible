@@ -1,0 +1,12 @@
+- name: Install common system utilities
+  hosts: droplet
+  become: true
+
+  tasks:
+    - name: Ensure common utilities are installed
+      ansible.builtin.apt:
+        name:
+          - fastfetch
+          - neovim
+        state: present
+        update_cache: true
