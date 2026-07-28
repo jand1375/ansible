@@ -1,6 +1,9 @@
 - name: Configure Admin Users
-  hosts: droplet
+  hosts: all
   become: true
+
+  vars_files:
+    - ../vars/users_vault.yml
 
   tasks:
     - name: Ensure sudo is installed
@@ -28,12 +31,13 @@
         key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
 
     - name: Create .hushlogin for adminja
-      ansible.builtin.file:
-        path: /home/adminja/.hushlogin
-        state: touch
+      ansible.builtin.copy:
+        content: ""
+        dest: /home/adminja/.hushlogin
         owner: adminja
         group: adminja
         mode: "0644"
+        force: false
 
     - name: Enable color Bash prompt
       ansible.builtin.lineinfile:

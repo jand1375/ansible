@@ -1,5 +1,5 @@
 - name: Install common system utilities
-  hosts: droplet
+  hosts: all
   become: true
 
   tasks:

@@ -1,0 +1,4 @@
+- import_playbook: ../common/system_utils.yml
+- import_playbook: ../users.yml
+- import_playbook: ../modules/neovim.yml
+- import_playbook: ../services/docker.yml
