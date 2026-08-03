@@ -49,6 +49,14 @@
         name: adminja
         groups: docker
         append: true
+    
+    - name: Create Docker application directory
+      ansible.builtin.file:
+        path: /opt/docker
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
 
 
 

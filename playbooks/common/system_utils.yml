@@ -8,5 +8,6 @@
         name:
           - fastfetch
           - neovim
+          - mosh
         state: present
         update_cache: true

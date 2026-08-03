@@ -1,0 +1,12 @@
+- name: Deploy Nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create Nginx application directory
+      ansible.builtin.file:
+        path: /opt/docker/nginx
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
