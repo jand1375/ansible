@@ -37,6 +37,24 @@
         owner: root
         group: root
         mode: "0644"
+		
+	- name: Deploy Nginx site configurations
+      ansible.builtin.copy:
+        src: "{{ nginx_profile }}/conf.d/"
+        dest: /opt/docker/nginx/conf.d/
+        owner: root
+        group: root
+        mode: "0644"
+		
+	- name: Deploy Nginx website files
+      ansible.builtin.copy:
+        src: "{{ nginx_profile }}/html/"
+        dest: /opt/docker/nginx/html/
+		
+	- name: Start Nginx Compose application
+      community.docker.docker_compose_v2:
+        project_src: /opt/docker/nginx
+        state: present
 
 
 
