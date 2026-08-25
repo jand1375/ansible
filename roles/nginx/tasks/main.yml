@@ -1,0 +1,42 @@
+- name: Deploy Nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create Nginx application directory
+      ansible.builtin.file:
+        path: /opt/docker/nginx
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Create Nginx configuration directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      loop:
+        - /opt/docker/nginx/conf.d
+        - /opt/docker/nginx/html
+
+    - name: Deploy Nginx Compose file
+      ansible.builtin.copy:
+        src: "{{ nginx_profile }}/compose.yml"
+        dest: /opt/docker/nginx/compose.yml
+        owner: root
+        group: root
+        mode: "06444"
+
+    - name: Deploy main Nginx configuration
+      ansible.builtin.copy:
+        src: "{{ nginx_profile }}/nginx.conf"
+        dest: /opt/docker/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: "0644"
+
+
+
