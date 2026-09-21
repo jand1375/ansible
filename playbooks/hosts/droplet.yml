@@ -2,3 +2,11 @@
 - import_playbook: ../users.yml
 - import_playbook: ../modules/neovim.yml
 - import_playbook: ../services/docker.yml
+
+- name: Configure Nginx on Droplet
+  hosts: all
+  become: true
+
+  roles:
+    - role: nginx
+      nginx_profile: nyxquant
