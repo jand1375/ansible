@@ -1,0 +1,42 @@
+---
+- name: Ensure Sudo is Installed
+  ansible.builtin.apt:
+    name: sudo
+    state: present
+    update_cache: true
+
+- name: Create adminja Account
+  ansible.builtin.user:
+    name: adminja
+    password: "{{ vault_adminja_password_hash }}"
+    groups:
+      - sudo
+    append: true
+    shell: /bin/bash
+    create_home: true
+    state: present
+    update_password: on_create
+
+- name: Install SSH Public Key
+  ansible.posix.authorized_key:
+    user: adminja
+    state: present
+    key: "{{ lookup('file', item) }}"
+  loop:
+    - ssh_keys/nixos_laptop.pub
+    - ssh_keys/debian_laptop.pub
+
+- name: Create .hushlogin for adminja
+  ansible.builtin.copy:
+    content: ""
+    dest: /home/adminja/.hushlogin
+    owner: adminja
+    group: adminja
+    mode: "0644"
+    force: false
+
+- name: Enable Color Bash Prompt
+  ansible.builtin.lineinfile:
+    path: /home/adminja/.bashrc
+    regexp: '^#?force_color_prompt=yes'
+    line: 'force_color_prompt=yes'

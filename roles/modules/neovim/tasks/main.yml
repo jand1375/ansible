@@ -1,0 +1,27 @@
+---
+- name: Install Neovim and Rust Development Tools
+  ansible.builtin.apt:
+    name:
+      - neovim
+      - rustc
+      - cargo
+      - rust-analyzer
+      - rustfmt
+    state: present
+    update_cache: true
+
+- name: Create Neovim Config Directory
+  ansible.builtin.file:
+    path: /home/adminja/.config/nvim
+    state: directory
+    owner: adminja
+    group: adminja
+    mode: "0755"
+
+- name: Deploy Neovim Config
+  ansible.builtin.copy:
+    src: init.lua
+    dest: /home/adminja/.config/nvim/init.lua
+    owner: adminja
+    group: adminja
+    mode: "0644"

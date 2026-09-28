@@ -1,0 +1,12 @@
+--- 
+- name: Client Config
+  hosts: all 
+  become: true
+
+  vars_files:
+    - ../../vars/users_vault.yml
+
+  roles:
+    - users
+    - system_utilities
+    - neovim

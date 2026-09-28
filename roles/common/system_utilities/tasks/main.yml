@@ -1,0 +1,36 @@
+---
+- name: Install Common System Utilities
+  ansible.builtin.apt:
+    name:
+      # General Administration
+      - curl
+      - wget
+      - git
+      - tmux
+      - htop
+      - tree
+      - rsync
+      - unzip
+      - jq
+      - lsof
+      - picocom
+      - fastfetch
+     
+      # Networking 
+      - iproute2
+      - iputils-ping
+      - traceroute
+      - mtr-tiny
+      - dnsutils
+      - netcat-openbsd
+      - tcpdump
+      - ethtool
+
+      # System Hardware 
+      - pciutils
+      - usbutils
+      - smartmontools
+      - lm-sensors
+    
+    state: present
+    update_cache: true
